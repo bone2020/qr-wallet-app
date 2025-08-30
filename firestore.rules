@@ -1,0 +1,65 @@
+rules_version = '2';
+
+function isSignedIn() {
+  return request.auth != null;
+}
+function isOwner(userId) {
+  return isSignedIn() && request.auth.uid == userId;
+}
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read and write to their own user document.
+    match /users/{userId} {
+      // A user can only read, create, or modify their own document.
+      // The `createUserProfile` function runs with admin privileges and bypasses these rules.
+      allow read: if isOwner(userId);
+      // Allow updates, but only for specific, non-critical fields.
+      allow update: if isOwner(userId) && // User can only update their own doc
+        // Critical, server-managed fields must not be changed by the client.
+        request.resource.data.walletBalance == resource.data.walletBalance &&
+        request.resource.data.isCompany == resource.data.isCompany &&
+        request.resource.data.createdAt == resource.data.createdAt && // createdAt is immutable
+        // Ensure no unexpected fields are added and only allowed fields are modified.
+        request.resource.data.keys().hasOnly(['displayName', 'email', 'createdAt', 'walletBalance', 'isCompany', 'companyName', 'companyLogoUrl', 'companyMessage']);
+      // Deleting user documents should likely be a privileged, server-side operation.
+      allow create, delete: if false;
+    }
+
+    // Users can manage their own saved withdrawal accounts.
+    match /users/{userId}/withdrawalAccounts/{accountId} {
+      allow read, delete: if isOwner(userId);
+      // When creating, validate the incoming data structure for robustness.
+      allow create: if isOwner(userId) &&
+        request.resource.data.paystackRecipientCode is string && request.resource.data.paystackRecipientCode.size() > 0 &&
+        request.resource.data.accountHolderName is string && request.resource.data.accountHolderName.size() > 0 &&
+        request.resource.data.bankName is string && request.resource.data.bankName.size() > 0 &&
+        request.resource.data.bankCode is string && request.resource.data.bankCode.size() > 0 &&
+        request.resource.data.accountType is string && request.resource.data.accountType.size() > 0 &&
+        request.resource.data.accountNumberLast4 is string && request.resource.data.accountNumberLast4.size() == 4 &&
+        request.resource.data.createdAt == request.time &&
+        // Ensure no extra, unexpected fields are being added.
+        request.resource.data.keys().hasOnly(['paystackRecipientCode', 'accountHolderName', 'bankName', 'bankCode', 'accountType', 'accountNumberLast4', 'createdAt']);
+    }
+
+    // Users can read and delete their own saved payment methods (cards).
+    // Creation is handled by the backend webhook function.
+    match /users/{userId}/paymentMethods/{methodId} {
+      allow read, delete: if isOwner(userId);
+      // Users cannot create or update payment methods from the client.
+      allow create, update: if false;
+    }
+
+    // Users can only read their own transactions.
+    // Transactions are created by server-side functions, so client-side creation is denied.
+    match /transactions/{transactionId} {
+       allow read: if isSignedIn() && resource.data.details != null &&
+         request.auth.uid in [
+           resource.data.details.userId,
+           resource.data.details.fromUserId,
+           resource.data.details.toUserId
+         ];
+       allow write: if false;
+    }
+  }
+}

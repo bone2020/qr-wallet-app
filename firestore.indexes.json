@@ -1,0 +1,13 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "withdrawalAccounts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "accountNumberLast4", "order": "ASCENDING" },
+        { "fieldPath": "bankCode", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
