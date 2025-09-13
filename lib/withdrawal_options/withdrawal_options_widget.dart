@@ -53,7 +53,7 @@ class _WithdrawalOptionsWidgetState extends State<WithdrawalOptionsWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              wrapWithModel(
+              wrapWithModel<SingleAppbarModel>(
                 model: _model.singleAppbarModel,
                 updateCallback: () => safeSetState(() {}),
                 child: SingleAppbarWidget(
