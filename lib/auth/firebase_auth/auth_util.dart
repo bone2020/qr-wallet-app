@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '/backend/backend.dart';
@@ -33,29 +34,33 @@ bool get currentUserEmailVerified => currentUser?.emailVerified ?? false;
 /// Create a Stream that listens to the current user's JWT Token, since Firebase
 /// generates a new token every hour.
 String? _currentJwtToken;
-final jwtTokenStream = FirebaseAuth.instance
-    .idTokenChanges()
-    .map((user) async => _currentJwtToken = await user?.getIdToken())
-    .asBroadcastStream();
+Stream<dynamic> get jwtTokenStream => Firebase.apps.isNotEmpty
+    ? FirebaseAuth.instance
+        .idTokenChanges()
+        .map((user) async => _currentJwtToken = await user?.getIdToken())
+        .asBroadcastStream()
+    : const Stream.empty().asBroadcastStream();
 
 DocumentReference? get currentUserReference =>
     loggedIn ? UsersRecord.collection.doc(currentUser!.uid) : null;
 
 UsersRecord? currentUserDocument;
-final authenticatedUserStream = FirebaseAuth.instance
-    .authStateChanges()
-    .map<String>((user) => user?.uid ?? '')
-    .switchMap(
-      (uid) => uid.isEmpty
-          ? Stream.value(null)
-          : UsersRecord.getDocument(UsersRecord.collection.doc(uid))
-              .handleError((_) {}),
-    )
-    .map((user) {
-  currentUserDocument = user;
-
-  return currentUserDocument;
-}).asBroadcastStream();
+Stream<dynamic> get authenticatedUserStream => Firebase.apps.isNotEmpty
+    ? FirebaseAuth.instance
+        .authStateChanges()
+        .map<String>((user) => user?.uid ?? '')
+        .switchMap(
+          (uid) => uid.isEmpty
+              ? Stream.value(null)
+              : UsersRecord.getDocument(UsersRecord.collection.doc(uid))
+                  .handleError((_) {}),
+        )
+        .map((user) {
+          currentUserDocument = user;
+          return currentUserDocument;
+        })
+        .asBroadcastStream()
+    : const Stream.empty().asBroadcastStream();
 
 class AuthUserStreamWidget extends StatelessWidget {
   const AuthUserStreamWidget({Key? key, required this.builder})

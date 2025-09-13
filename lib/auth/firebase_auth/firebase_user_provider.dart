@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../base_auth_user_provider.dart';
@@ -62,14 +63,16 @@ class QRWalletAppFirebaseUser extends BaseAuthUser {
       QRWalletAppFirebaseUser(user);
 }
 
-Stream<BaseAuthUser> qRWalletAppFirebaseUserStream() => FirebaseAuth.instance
+Stream<BaseAuthUser> qRWalletAppFirebaseUserStream() => Firebase.apps.isNotEmpty
+    ? FirebaseAuth.instance
         .authStateChanges()
         .debounce((user) => user == null && !loggedIn
             ? TimerStream(true, const Duration(seconds: 1))
             : Stream.value(user))
         .map<BaseAuthUser>(
-      (user) {
-        currentUser = QRWalletAppFirebaseUser(user);
-        return currentUser!;
-      },
-    );
+          (user) {
+            currentUser = QRWalletAppFirebaseUser(user);
+            return currentUser!;
+          },
+        )
+    : Stream<BaseAuthUser>.value(QRWalletAppFirebaseUser(null));

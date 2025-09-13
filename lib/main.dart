@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'auth/firebase_auth/firebase_user_provider.dart';
+import 'dart:async';
 import 'auth/firebase_auth/auth_util.dart';
 
 import 'backend/firebase/firebase_config.dart';
@@ -62,8 +63,7 @@ class _MyAppState extends State<MyApp> {
           .map((e) => getRoute(e))
           .toList();
   late Stream<BaseAuthUser> userStream;
-
-  final authUserSub = authenticatedUserStream.listen((_) {});
+  late StreamSubscription<dynamic> authUserSub;
 
   @override
   void initState() {
@@ -75,6 +75,7 @@ class _MyAppState extends State<MyApp> {
       ..listen((user) {
         _appStateNotifier.update(user);
       });
+    authUserSub = authenticatedUserStream.listen((_) {});
     jwtTokenStream.listen((_) {});
     Future.delayed(
       Duration(milliseconds: 1000),
