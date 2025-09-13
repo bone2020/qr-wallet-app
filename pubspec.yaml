@@ -151,6 +151,7 @@ dev_dependencies:
   lints: 4.0.0
   flutter_test:
     sdk: flutter
+  firebase_auth_mocks: ^0.14.2
 
 
 flutter_launcher_icons:
