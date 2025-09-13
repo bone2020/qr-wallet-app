@@ -63,9 +63,10 @@ class _WithdrawalOptionsWidgetState extends State<WithdrawalOptionsWidget> {
               Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(5.0, 5.0, 5.0, 5.0),
-                    child: Form(
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(5.0, 5.0, 5.0, 5.0),
+                      child: Form(
                       key: _model.formKey,
                       autovalidateMode: AutovalidateMode.disabled,
                       child: Padding(
@@ -356,6 +357,7 @@ class _WithdrawalOptionsWidgetState extends State<WithdrawalOptionsWidget> {
                               ),
                             ),
                           ],
+                          ),
                         ),
                       ),
                     ),
