@@ -289,7 +289,7 @@ class _HomeWidgetWidgetState extends State<HomeWidgetWidget>
                           child: FFButtonWidget(
                             onPressed: () async {
                               context.pushNamed(
-                                  FundingQRWallerOptionsOWidget.routeName);
+                                  FundingQRWallerOptionsWidget.routeName);
                             },
                             text: 'Fund your wallet ',
                             options: FFButtonOptions(

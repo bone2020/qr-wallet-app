@@ -7,9 +7,8 @@ import '/backend/schema/util/firestore_util.dart';
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
-/// This is for transaction data storage
-class TransactionDataBaseRecord extends FirestoreRecord {
-  TransactionDataBaseRecord._(
+class TransactionsRecord extends FirestoreRecord {
+  TransactionsRecord._(
     DocumentReference reference,
     Map<String, dynamic> data,
   ) : super(reference, data) {
@@ -65,41 +64,40 @@ class TransactionDataBaseRecord extends FirestoreRecord {
   }
 
   static CollectionReference get collection =>
-      FirebaseFirestore.instance.collection('TransactionDataBase');
+      FirebaseFirestore.instance.collection('transactions');
 
-  static Stream<TransactionDataBaseRecord> getDocument(DocumentReference ref) =>
-      ref.snapshots().map((s) => TransactionDataBaseRecord.fromSnapshot(s));
+  static Stream<TransactionsRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => TransactionsRecord.fromSnapshot(s));
 
-  static Future<TransactionDataBaseRecord> getDocumentOnce(
-          DocumentReference ref) =>
-      ref.get().then((s) => TransactionDataBaseRecord.fromSnapshot(s));
+  static Future<TransactionsRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then((s) => TransactionsRecord.fromSnapshot(s));
 
-  static TransactionDataBaseRecord fromSnapshot(DocumentSnapshot snapshot) =>
-      TransactionDataBaseRecord._(
+  static TransactionsRecord fromSnapshot(DocumentSnapshot snapshot) =>
+      TransactionsRecord._(
         snapshot.reference,
         mapFromFirestore(snapshot.data() as Map<String, dynamic>),
       );
 
-  static TransactionDataBaseRecord getDocumentFromData(
+  static TransactionsRecord getDocumentFromData(
     Map<String, dynamic> data,
     DocumentReference reference,
   ) =>
-      TransactionDataBaseRecord._(reference, mapFromFirestore(data));
+      TransactionsRecord._(reference, mapFromFirestore(data));
 
   @override
   String toString() =>
-      'TransactionDataBaseRecord(reference: ${reference.path}, data: $snapshotData)';
+      'TransactionsRecord(reference: ${reference.path}, data: $snapshotData)';
 
   @override
   int get hashCode => reference.path.hashCode;
 
   @override
   bool operator ==(other) =>
-      other is TransactionDataBaseRecord &&
+      other is TransactionsRecord &&
       reference.path.hashCode == other.reference.path.hashCode;
 }
 
-Map<String, dynamic> createTransactionDataBaseRecordData({
+Map<String, dynamic> createTransactionsRecordData({
   String? transactionId,
   String? type,
   String? status,
@@ -126,12 +124,12 @@ Map<String, dynamic> createTransactionDataBaseRecordData({
   return firestoreData;
 }
 
-class TransactionDataBaseRecordDocumentEquality
-    implements Equality<TransactionDataBaseRecord> {
-  const TransactionDataBaseRecordDocumentEquality();
+class TransactionsRecordDocumentEquality
+    implements Equality<TransactionsRecord> {
+  const TransactionsRecordDocumentEquality();
 
   @override
-  bool equals(TransactionDataBaseRecord? e1, TransactionDataBaseRecord? e2) {
+  bool equals(TransactionsRecord? e1, TransactionsRecord? e2) {
     return e1?.transactionId == e2?.transactionId &&
         e1?.type == e2?.type &&
         e1?.status == e2?.status &&
@@ -142,7 +140,7 @@ class TransactionDataBaseRecordDocumentEquality
   }
 
   @override
-  int hash(TransactionDataBaseRecord? e) => const ListEquality().hash([
+  int hash(TransactionsRecord? e) => const ListEquality().hash([
         e?.transactionId,
         e?.type,
         e?.status,
@@ -153,5 +151,5 @@ class TransactionDataBaseRecordDocumentEquality
       ]);
 
   @override
-  bool isValidKey(Object? o) => o is TransactionDataBaseRecord;
+  bool isValidKey(Object? o) => o is TransactionsRecord;
 }

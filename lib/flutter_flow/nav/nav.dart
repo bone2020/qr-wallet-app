@@ -77,14 +77,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? SignUpPageWidget() : LoginPageWidget(),
+          appStateNotifier.loggedIn ? LoginPageWidget() : OnbordingWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => appStateNotifier.loggedIn
-              ? SignUpPageWidget()
-              : LoginPageWidget(),
+          builder: (context, _) =>
+              appStateNotifier.loggedIn ? LoginPageWidget() : OnbordingWidget(),
         ),
         FFRoute(
           name: SplashScreenWidget.routeName,
@@ -184,7 +183,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'latestTransaction',
               ParamType.DocumentReference,
               isList: false,
-              collectionNamePath: ['TransactionDataBase'],
+              collectionNamePath: ['transactions'],
             ),
           ),
         ),
@@ -206,7 +205,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'latestTransaction',
               ParamType.DocumentReference,
               isList: false,
-              collectionNamePath: ['TransactionDataBase'],
+              collectionNamePath: ['transactions'],
             ),
           ),
         ),
@@ -332,20 +331,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => AddBankAccountPageWidget(),
         ),
         FFRoute(
-          name: MobileMoneyWithdrawalPage22Widget.routeName,
-          path: MobileMoneyWithdrawalPage22Widget.routePath,
-          builder: (context, params) => MobileMoneyWithdrawalPage22Widget(),
-        ),
-        FFRoute(
           name: MobileMoneyTransactionSammarypageWidget.routeName,
           path: MobileMoneyTransactionSammarypageWidget.routePath,
           builder: (context, params) =>
               MobileMoneyTransactionSammarypageWidget(),
-        ),
-        FFRoute(
-          name: BankAccountWithdrawalPage22Widget.routeName,
-          path: BankAccountWithdrawalPage22Widget.routePath,
-          builder: (context, params) => BankAccountWithdrawalPage22Widget(),
         ),
         FFRoute(
           name: BankTransferTransactionSammarypageWidget.routeName,
@@ -387,11 +376,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               TransactionSammaryFromQRWalletToMobileMoneyWidget(),
         ),
         FFRoute(
-          name: WithdrawalOptionsWidget.routeName,
-          path: WithdrawalOptionsWidget.routePath,
-          builder: (context, params) => WithdrawalOptionsWidget(),
-        ),
-        FFRoute(
           name: PaymentConfirmationPageWidget.routeName,
           path: PaymentConfirmationPageWidget.routePath,
           builder: (context, params) => PaymentConfirmationPageWidget(
@@ -400,11 +384,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.String,
             ),
           ),
-        ),
-        FFRoute(
-          name: FundingQRWallerOptionsWidget.routeName,
-          path: FundingQRWallerOptionsWidget.routePath,
-          builder: (context, params) => FundingQRWallerOptionsWidget(),
         ),
         FFRoute(
           name: TransferFromBankToWalletWidget.routeName,
@@ -434,14 +413,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'latestTransaction',
               ParamType.DocumentReference,
               isList: false,
-              collectionNamePath: ['TransactionDataBase'],
+              collectionNamePath: ['transactions'],
             ),
           ),
         ),
         FFRoute(
-          name: FundingQRWallerOptionsOWidget.routeName,
-          path: FundingQRWallerOptionsOWidget.routePath,
-          builder: (context, params) => FundingQRWallerOptionsOWidget(),
+          name: FundingQRWallerOptionsWidget.routeName,
+          path: FundingQRWallerOptionsWidget.routePath,
+          builder: (context, params) => FundingQRWallerOptionsWidget(),
+        ),
+        FFRoute(
+          name: WithdrawalOptionsWidget.routeName,
+          path: WithdrawalOptionsWidget.routePath,
+          builder: (context, params) => WithdrawalOptionsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -614,7 +598,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/loginPage';
+            return '/onbording';
           }
           return null;
         },

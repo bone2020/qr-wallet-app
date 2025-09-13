@@ -63,24 +63,16 @@ export '/login/add_mobile_money_account_page/add_mobile_money_account_page_widge
     show AddMobileMoneyAccountPageWidget;
 export '/login/add_bank_account_page/add_bank_account_page_widget.dart'
     show AddBankAccountPageWidget;
-export '/mobile_money_withdrawal_page22/mobile_money_withdrawal_page22_widget.dart'
-    show MobileMoneyWithdrawalPage22Widget;
 export '/login/mobile_money_transaction_sammarypage/mobile_money_transaction_sammarypage_widget.dart'
     show MobileMoneyTransactionSammarypageWidget;
-export '/bank_account_withdrawal_page22/bank_account_withdrawal_page22_widget.dart'
-    show BankAccountWithdrawalPage22Widget;
 export '/login/bank_transfer_transaction_sammarypage/bank_transfer_transaction_sammarypage_widget.dart'
     show BankTransferTransactionSammarypageWidget;
 export '/login/transaction_sammary_from_q_r_wallet_to_bank/transaction_sammary_from_q_r_wallet_to_bank_widget.dart'
     show TransactionSammaryFromQRWalletToBankWidget;
 export '/login/transaction_sammary_from_q_r_wallet_to_mobile_money/transaction_sammary_from_q_r_wallet_to_mobile_money_widget.dart'
     show TransactionSammaryFromQRWalletToMobileMoneyWidget;
-export '/withdrawal_options/withdrawal_options_widget.dart'
-    show WithdrawalOptionsWidget;
 export '/payment_confirmation_page/payment_confirmation_page_widget.dart'
     show PaymentConfirmationPageWidget;
-export '/funding_q_r_waller_options/funding_q_r_waller_options_widget.dart'
-    show FundingQRWallerOptionsWidget;
 export '/transfer_from_bank_to_wallet/transfer_from_bank_to_wallet_widget.dart'
     show TransferFromBankToWalletWidget;
 export '/transfer_from_mo_mo_to_wallet/transfer_from_mo_mo_to_wallet_widget.dart'
@@ -91,5 +83,7 @@ export '/mobile_money_withdrawal_page/mobile_money_withdrawal_page_widget.dart'
     show MobileMoneyWithdrawalPageWidget;
 export '/home/successful_withdrawalpage/successful_withdrawalpage_widget.dart'
     show SuccessfulWithdrawalpageWidget;
-export '/funding_q_r_waller_options_o/funding_q_r_waller_options_o_widget.dart'
-    show FundingQRWallerOptionsOWidget;
+export '/funding_q_r_waller_options/funding_q_r_waller_options_widget.dart'
+    show FundingQRWallerOptionsWidget;
+export '/withdrawal_options/withdrawal_options_widget.dart'
+    show WithdrawalOptionsWidget;

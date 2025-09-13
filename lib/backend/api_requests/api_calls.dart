@@ -14,7 +14,9 @@ const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 class PaystackGroup {
   static String getBaseUrl() =>
       'https://us-central1-qr-wallet-app-y4cu3z-2021.cloudfunctions.net/paystack';
-  static Map<String, String> headers = {};
+  static Map<String, String> headers = {
+    'Content-Type': 'application/json',
+  };
   static InitializeTransactionCall initializeTransactionCall =
       InitializeTransactionCall();
 }
@@ -42,7 +44,9 @@ class InitializeTransactionCall {
       callName: 'initializeTransaction',
       apiUrl: '${baseUrl}/initialize-transaction',
       callType: ApiCallType.POST,
-      headers: {},
+      headers: {
+        'Content-Type': 'application/json',
+      },
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
@@ -157,12 +161,29 @@ class CreateTransferRecipientCall {
       apiUrl:
           'https://us-central1-qr-wallet-app-y4cu3z-2021.cloudfunctions.net/createTransferRecipient',
       callType: ApiCallType.POST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: {},
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class GetProvidersCall {
+  static Future<ApiCallResponse> call() async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'getProviders',
+      apiUrl:
+          'https://us-central1-qr-wallet-app-y4cu3z-2021.cloudfunctions.net/getProviders',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,

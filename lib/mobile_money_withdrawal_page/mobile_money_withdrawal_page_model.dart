@@ -1,5 +1,6 @@
 import '/appbar/single_appbar/single_appbar_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
 import 'mobile_money_withdrawal_page_widget.dart'
     show MobileMoneyWithdrawalPageWidget;
@@ -12,6 +13,9 @@ class MobileMoneyWithdrawalPageModel
   final formKey = GlobalKey<FormState>();
   // Model for SingleAppbar component.
   late SingleAppbarModel singleAppbarModel;
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;

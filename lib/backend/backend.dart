@@ -5,10 +5,10 @@ import '../auth/firebase_auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'schema/util/firestore_util.dart';
 
-import 'schema/transaction_data_base_record.dart';
-import 'schema/saved_account_detiles_record.dart';
 import 'schema/users_record.dart';
 import 'schema/payment_methods_record.dart';
+import 'schema/transactions_record.dart';
+import 'schema/saved_account_detiles_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -17,84 +17,10 @@ export 'schema/index.dart';
 export 'schema/util/firestore_util.dart';
 export 'schema/util/schema_util.dart';
 
-export 'schema/transaction_data_base_record.dart';
-export 'schema/saved_account_detiles_record.dart';
 export 'schema/users_record.dart';
 export 'schema/payment_methods_record.dart';
-
-/// Functions to query TransactionDataBaseRecords (as a Stream and as a Future).
-Future<int> queryTransactionDataBaseRecordCount({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-}) =>
-    queryCollectionCount(
-      TransactionDataBaseRecord.collection,
-      queryBuilder: queryBuilder,
-      limit: limit,
-    );
-
-Stream<List<TransactionDataBaseRecord>> queryTransactionDataBaseRecord({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollection(
-      TransactionDataBaseRecord.collection,
-      TransactionDataBaseRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-Future<List<TransactionDataBaseRecord>> queryTransactionDataBaseRecordOnce({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollectionOnce(
-      TransactionDataBaseRecord.collection,
-      TransactionDataBaseRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-/// Functions to query SavedAccountDetilesRecords (as a Stream and as a Future).
-Future<int> querySavedAccountDetilesRecordCount({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-}) =>
-    queryCollectionCount(
-      SavedAccountDetilesRecord.collection,
-      queryBuilder: queryBuilder,
-      limit: limit,
-    );
-
-Stream<List<SavedAccountDetilesRecord>> querySavedAccountDetilesRecord({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollection(
-      SavedAccountDetilesRecord.collection,
-      SavedAccountDetilesRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-Future<List<SavedAccountDetilesRecord>> querySavedAccountDetilesRecordOnce({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollectionOnce(
-      SavedAccountDetilesRecord.collection,
-      SavedAccountDetilesRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
+export 'schema/transactions_record.dart';
+export 'schema/saved_account_detiles_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -168,6 +94,80 @@ Future<List<PaymentMethodsRecord>> queryPaymentMethodsRecordOnce({
     queryCollectionOnce(
       PaymentMethodsRecord.collection(parent),
       PaymentMethodsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query TransactionsRecords (as a Stream and as a Future).
+Future<int> queryTransactionsRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      TransactionsRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<TransactionsRecord>> queryTransactionsRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      TransactionsRecord.collection,
+      TransactionsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<TransactionsRecord>> queryTransactionsRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      TransactionsRecord.collection,
+      TransactionsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query SavedAccountDetilesRecords (as a Stream and as a Future).
+Future<int> querySavedAccountDetilesRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      SavedAccountDetilesRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<SavedAccountDetilesRecord>> querySavedAccountDetilesRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      SavedAccountDetilesRecord.collection,
+      SavedAccountDetilesRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<SavedAccountDetilesRecord>> querySavedAccountDetilesRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      SavedAccountDetilesRecord.collection,
+      SavedAccountDetilesRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

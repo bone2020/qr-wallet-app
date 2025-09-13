@@ -1,9 +1,11 @@
 import '/appbar/single_appbar/single_appbar_widget.dart';
+import '/backend/api_requests/api_calls.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/form_field_controller.dart';
 import '/custom_code/actions/index.dart' as actions;
-import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -107,19 +109,89 @@ class _MobileMoneyWithdrawalPageWidgetState
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               12.0, 0.0, 12.0, 15.0),
-                          child: Container(
-                            width: 200.0,
-                            height: 40.0,
-                            child: custom_widgets.DynamicProviderDropdown(
-                              width: 200.0,
-                              height: 40.0,
-                              accountType: 'Mobile_money',
-                              onProviderSelected: (providerCode) async {
-                                FFAppState().selectedProviderCode =
-                                    providerCode;
-                                safeSetState(() {});
-                              },
-                            ),
+                          child: FutureBuilder<ApiCallResponse>(
+                            future: GetProvidersCall.call(),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 50.0,
+                                    height: 50.0,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        FlutterFlowTheme.of(context).primary,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                              final dropDownGetProvidersResponse =
+                                  snapshot.data!;
+
+                              return FlutterFlowDropDown<String>(
+                                controller: _model.dropDownValueController ??=
+                                    FormFieldController<String>(
+                                  _model.dropDownValue ??= getJsonField(
+                                    dropDownGetProvidersResponse.jsonBody,
+                                    r'''$.providers''',
+                                  ).toString(),
+                                ),
+                                options: List<String>.from((getJsonField(
+                                  dropDownGetProvidersResponse.jsonBody,
+                                  r'''$.code''',
+                                  true,
+                                ) as List?)!
+                                    .map<String>((e) => e.toString())
+                                    .toList()
+                                    .cast<String>()),
+                                optionLabels: (getJsonField(
+                                  dropDownGetProvidersResponse.jsonBody,
+                                  r'''$.name''',
+                                  true,
+                                ) as List?)!
+                                    .map<String>((e) => e.toString())
+                                    .toList()
+                                    .cast<String>(),
+                                onChanged: (val) async {
+                                  safeSetState(
+                                      () => _model.dropDownValue = val);
+                                  FFAppState().selectedProviderCode =
+                                      _model.dropDownValue!;
+                                  safeSetState(() {});
+                                },
+                                width: 200.0,
+                                height: 40.0,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'SF UI Font',
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondary,
+                                      letterSpacing: 0.0,
+                                    ),
+                                hintText: 'Select...',
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  size: 24.0,
+                                ),
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                elevation: 2.0,
+                                borderColor:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                borderWidth: 1.0,
+                                borderRadius: 16.0,
+                                margin: EdgeInsetsDirectional.fromSTEB(
+                                    12.0, 0.0, 12.0, 0.0),
+                                hidesUnderline: true,
+                                isOverButton: false,
+                                isSearchable: false,
+                                isMultiSelect: false,
+                              );
+                            },
                           ),
                         ),
                         Padding(
